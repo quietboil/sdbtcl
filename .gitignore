@@ -1,0 +1,10 @@
+.*
+!.gitignore
+**/*.o
+**/*.d
+**/*.so
+**/*.obj
+**/*.dll
+**/*.lib
+**/*.exp
+**/local.mk
