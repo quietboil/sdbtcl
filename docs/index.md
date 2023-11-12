@@ -200,7 +200,7 @@ Executes a single SQL statement that does not have parameter markers in them. Re
 ```tcl
 set numRows [db execute "SET CURRENT_SCHEMA=hotel"]
 # $numRows == 0
-set numRows [db execute "SELECT * FROM dual]
+set numRows [db execute "SELECT * FROM dual"]
 # $numRows == 1
 ```
 
