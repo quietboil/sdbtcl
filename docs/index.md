@@ -39,20 +39,15 @@ Sdbtcl provides a single command - `sdb`. That command supports the following op
 
 **`sdb version`**
 
-<ul>
-
 Returns the version of used SQLDBC runtime:
 
 ```tcl
 set version [sdb version]
 # $version eq "libSQLDBC 7.9.10    BUILD 011-123-272-517"
 ```
-</ul>
 
 **`sdb connect`** *`cmdName ?-host nodename? -database dbname -user username -password password ?-option value ... ?`*
 **`sdb connect`** *`cmdName -key XUSERKEY ?-option value ... ?`*
-
-<ul>
 
 Opens a new database session and creates a new Tcl command *`cmdName`* that will be used to access that session.
 
@@ -72,15 +67,11 @@ Opens a new database session and creates a new Tcl command *`cmdName`* that will
 sdb connect db -key mona -chopblanks 1
 ```
 
-</ul>
-
 ## Database Session Operations
 
 Command created by **`sdb connect`** to access a connected database session provides the follwing operations:
 
 *`dbCmd`* **`configure`** *`?option ?value ?option value ... ???`*
-
-<ul>
 
 Query or modify current session options. As most SQLDBC connection options can only be used upon connect and are not accessible from a session, only the following options can be queried - **`autocommit`**, **`isolationlevel`**, and **`sqlmode`**:
 
@@ -92,11 +83,7 @@ set isAutoCommit [db config -autocommit]
 db configure -autocommit on
 ```
 
-</ul>
-
 *`dbCmd`* **`get`** *`propName`*
-
-<ul>
 
 Queries database properties. *`propName`* can be one of these:
 
@@ -108,11 +95,7 @@ set ver [db kernelversion]
 # $ver = 70910
 ```
 
-</ul>
-
 *`dbCmd`* **`is`** *`state`*
-
-<ul>
 
 Queries the connection and the database state. *`state`* can be one of these:
 
@@ -127,11 +110,7 @@ set isUsable [db is usable]
 # $isUsable == 1
 ```
 
-</ul>
-
 *`dbCmd`* **`commit`**
-
-<ul>
 
 Commits all changes made in the current transaction (since the previous **`commit`** or **`rollback`**) and releases any database locks created by this database session.
 
@@ -139,11 +118,7 @@ Commits all changes made in the current transaction (since the previous **`commi
 db commit 
 ```
 
-</ul>
-
 *`dbCmd`* **`rollback`**
-
-<ul>
 
 Undoes all changes made in the current transaction (since the previous **`commit`** or **`rollback`**) and releases any database locks created by this database session.
 
@@ -151,11 +126,7 @@ Undoes all changes made in the current transaction (since the previous **`commit
 db rollback 
 ```
 
-</ul>
-
 *`dbCmd`* **`disconnect`**
-
-<ul>
 
 Closes the current database session and deletes the database session access command.
 
@@ -168,13 +139,9 @@ db disconnect
 # [info commands db] == {}
 ```
 
-</ul>
-
 ## SQL Statements Execution
 
 *`dbCmd`* **`newstatement`** *`?option value ... ?`*
-
-<ul>
 
 Creates a new handle for execution of DDL and DML statements that do not have parameter markers in them.
 
@@ -192,11 +159,7 @@ Creates a new handle for execution of DDL and DML statements that do not have pa
 set stmt [db newstatement]
 ```
 
-</ul>
-
 *`dbCmd`* **`prepare`** *`?option value ... ? sql`*
-
-<ul>
 
 Creates a new handle for execution of the SQL statement that has parameter markers in them, and sends the given SQL statement to the database for parsing.
 
@@ -215,11 +178,7 @@ set stmt [db prepare "
 "]
 ```
 
-</ul>
-
 *`dbCmd`* **`batch`** *`sql ?sql ... ?`*
-
-<ul>
 
 Executes a batch of SQL statements that (a) do not return result sets and (b) do not have parameter markers in them.
 
@@ -229,13 +188,9 @@ The result of the execution is a list of results returned by the execution of th
 set results [db batch "CREATE TABLE ..." "CREATE INDEX ..." "INSERT ..." "INSERT ..."]
 ```
 
-</ul>
-
 > ⚠️ Most of the commands listed below can be executed with either the internal implicit statement handle or with an explicit statement handle created either by the **`newstatement`** or by **`prepare`**.
 
 *`dbCmd`* **`execute`** *`?option value ... ? ?stmtHandle? sql`*
-
-<ul>
 
 Executes a single SQL statement that does not have parameter markers in them. Returns the number of rows in the result set for queries or procedures that return cursors, the number of affected rows for DML like `DELETE`, `UPDATE`, `INSERT`.
 
@@ -248,13 +203,9 @@ set numRows [db execute "SELECT * FROM dual]
 # $numRows == 1
 ```
 
-</ul>
-
 *`dbCmd`* **`execute`** *`?option value ... ? stmtHandle ?argVal ... ?`*
 
 *`dbCmd`* **`execute`** *`?option value ... ? stmtHandle ?:argName argVal ... ?`*
-
-<ul>
 
 Executes a prepared SQL statement. Returns the number of rows in the result set for queries or procedures that return cursors, the number of affected rows for DML like `DELETE`, `UPDATE`, `INSERT`.
 
@@ -280,11 +231,7 @@ set numRows [db execute -maxrows 10 $stmt :STATE TX :MIN_PRICE 75]
 # $numRows == 10
 ```
 
-</ul>
-
 *`dbCmd`* **`columns`** *`?stmtHandle? ?columnNumber|-count|-labels?`*
-
-<ul>
 
 Returns information about the result set columns:
 
@@ -321,11 +268,7 @@ set col1 [db column $stmt 1]
 # $col1 == {schema HOTEL table CITY column ZIP label ZIP type {CHAR ASCII} length 5 precision 5 scale 0 bytelength 5 nullable 0 writable 0}
 ```
 
-</ul>
-
 *`dbCmd`* **`fetch`** *`?options? ?stmtHandle? rowVar ?nullIndVar?`*
-
-<ul>
 
 Retrieves the data from the result set at the specified cursor position. Saves the data into *`rowVar`* either as a list or as an array if the **`-asarray`** option was specified. If the optional *`nullIndVar`* is specified, then null indicators for each columns will be saved into that variable either as a list or as an array if the **`-asarray`** option was specified.
 
@@ -348,19 +291,11 @@ while {[db fetch -asarray $stmt row]} {
 # output: Exeter, RI 02822
 ```
 
-</ul>
-
 *`dbCmd`* **`rownumber`** *`?stmtHandle?`*
-
-<ul>
 
 Returns the current row number. The first row is row number 1, the second row number 2, and so on. The returned row number is 0 if the cursor is positioned outside the result set.
 
-</ul>
-
 *`dbCmd`* **`serial`** *`?option? ?stmtHandle?`*
-
-<ul>
 
 Retrieves the key that was inserted by the last insert operation.
 
@@ -378,13 +313,9 @@ set id [db serial $stmt]
 # $id >= 1 
 ```
 
-</ul>
-
 ## LOB Operations
 
 *`dbCmd`* **`length`** *`lobHandle`*
-
-<ul>
 
 Retrieves the length of the given LOB in the database. For CLOBs the length is returned in characters.
 
@@ -398,11 +329,7 @@ if {[db fetch $stmt row]} {
 }
 ```
 
-</ul>
-
 *`dbCmd`* **`read`** *`?-from position? lobHandle numChars`*
-
-<ul>
 
 Retrieves the partial content of the LOB. After the operation, the internal position is the start position plus the number of bytes/characters that have been read.
 
@@ -421,11 +348,7 @@ if {[db fetch $stmt row]} {
 }
 ```
 
-</ul>
-
 *`dbCmd`* **`position`** *`lobHandle`*
-
-<ul>
 
 Retrieves the current read/write position. For CLOBs the length is returned in characters.
 
@@ -442,11 +365,7 @@ if {[db fetch $stmt row]} {
 }
 ```
 
-</ul>
-
 *`dbCmd`* **`optimalsize`** *`lobHandle`*
-
-<ul>
 
 Retrieves the optimal size of data for reading or writing (the maximum size that can be transferred with one call to the database server). An application may use this to optimize the communication, by using buffers that are multiples of the preferred size.
 
@@ -460,19 +379,13 @@ if {[db fetch $stmt row]} {
 }
 ```
 
-</ul>
-
 *`dbCmd`* **`close`** *`lobHandle`*
-
-<ul>
 
 Closes the given LOB handle.
 
 ```tcl
 db close $lob
 ```
-
-</ul>
 
 ## Writing Into LOBs
 
