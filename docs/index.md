@@ -47,6 +47,7 @@ set version [sdb version]
 ```
 
 **`sdb connect`** *`cmdName ?-host nodename? -database dbname -user username -password password ?-option value ... ?`*
+
 **`sdb connect`** *`cmdName -key XUSERKEY ?-option value ... ?`*
 
 Opens a new database session and creates a new Tcl command *`cmdName`* that will be used to access that session.
